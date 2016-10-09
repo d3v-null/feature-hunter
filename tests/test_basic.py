@@ -13,8 +13,8 @@ target_name = 'triplej'
 target_url = 'http://www.abc.net.au/triplej/music/featurealbums/'
 target_record_spec = {"css": "div.podlist_item"}
 target_field_specs = {
-    "album": {"regex": " - \\s*(\\S[\\s\\S]+\\S)\\s*$", "css": "div.text div.title::text"},
-    "artist": {"regex": "^\\s*(\\S[\\s\\S]+\\S)\\s* - ", "css": "div.text div.title::text"}
+    "album": {"regex": r" - \s*(\S[\s\S]+\S)\s*$", "css": "div.text div.title::text"},
+    "artist": {"regex": r"^\s*(\S[\s\S]+\S)\s* - ", "css": "div.text div.title::text"}
 }
 
 test_new_result = [ {"album": "Westway (The Glitter & The Slums)", "artist": "Sticky Fingers"}, {"album": "Smoke Fire Hope Desire", "artist": "Harts"}, {"album": "Divas & Demons", "artist": "Remi"}, {"album": "Internal", "artist": "SAFIA"}, {"album": "Animal", "artist": "Big Scary"}, {"album": "Prolapse", "artist": "Knife Party"}]
@@ -61,7 +61,7 @@ class DBTestsBasic(unittest.TestCase):
         self.assertEqual(target['field_specs'], target_field_specs)
 
 
-@unittest.skip("don't want to test on live server too often. uncomment to enable test")
+# @unittest.skip("don't want to test on live server too often. uncomment to enable test")
 class CrawlerTestsBasic(unittest.TestCase):
     def testCrawl(self):
         items = get_crawler_items(
