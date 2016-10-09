@@ -1,2 +1,5 @@
 
 *.pyc
+build/*
+*.egg
+feature_hunter.egg-info/*

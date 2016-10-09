@@ -50,7 +50,8 @@ class ArbitraryRecordSpider(scrapy.Spider):
 def get_crawler_items(record_spec, field_specs, start_urls, settings=None):
     if not settings:
         settings = {
-            'USER_AGENT': 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)'
+            'USER_AGENT':'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)',
+            'LOG_LEVEL':'INFO'
         }
     process = CrawlerProcess(settings)
     process.crawl(

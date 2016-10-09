@@ -105,14 +105,5 @@ class DiffTestBasic(unittest.TestCase):
         )
         self.assertEqual(diff.difference(), test_difference)
 
-
-
-# class BasicTestSuite(unittest.TestCase):
-#     """Basic test cases."""
-#
-#     def test_absolute_truth_and_meaning(self):
-#         assert True
-
-
 if __name__ == '__main__':
     unittest.main()
