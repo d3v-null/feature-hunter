@@ -54,6 +54,7 @@ def main():
     parser.add_argument('--smtp-pass')
     parser.add_argument('--smtp-receipiant')
     parser.add_argument('--smtp-domain')
+    parser.add_argument('--smtp-debug', default=False, action='store_true')
     args = parser.parse_args()
 
     if args:
@@ -76,6 +77,8 @@ def main():
             smtp_settings['host'] = args.smtp_host
         if args.smtp_domain is not None:
             smtp_settings['domain'] = args.smtp_domain
+        if args.smtp_debug is not None:
+            smtp_settings['debug'] = args.smtp_debug
 
         alerts = refresh_db(db_path, scrapy_settings)
         if alerts:

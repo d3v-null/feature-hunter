@@ -2,3 +2,4 @@ nose
 sphinx
 tinydb
 scrapy
+tabulate
