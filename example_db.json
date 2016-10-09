@@ -1,0 +1,10 @@
+{
+    "targets": {
+        "1": {
+            "url": "http://www.abc.net.au/triplej/music/featurealbums/",
+            "record_spec": "{\"css\": \"div.podlist_item\"}",
+            "field_specs": "{\"album\": {\"regex\": \" - \\\\s*(\\\\S[\\\\s\\\\S]+\\\\S)\\\\s*$\", \"css\": \"div.text div.title::text\"}, \"artist\": {\"regex\": \"^\\\\s*(\\\\S[\\\\s\\\\S]+\\\\S)\\\\s* - \", \"css\": \"div.text div.title::text\"}}",
+            "name": "triplej"
+        }
+    }
+}
