@@ -112,7 +112,7 @@ class AlerterTestBasic(unittest.TestCase):
             'triplej':[{"album": "Westway (The Glitter & The Slums)", "artist": "Sticky Fingers"}]
         }
 
-    @unittest.skip("email creds redacted for commit")    
+    @unittest.skip("email creds redacted for commit")
     def testCreateAlert(self):
         smtp_params = {
             'sender':'<redacted>@gmail.com',
@@ -126,8 +126,8 @@ class AlerterTestBasic(unittest.TestCase):
         )
 
 if __name__ == '__main__':
-    # unittest.main()
+    unittest.main()
 
-    testSuite = unittest.TestSuite()
-    testSuite.addTest(AlerterTestBasic('testCreateAlert'))
-    unittest.TextTestRunner().run(testSuite)
+    # testSuite = unittest.TestSuite()
+    # testSuite.addTest(AlerterTestBasic('testCreateAlert'))
+    # unittest.TextTestRunner().run(testSuite)

@@ -12,10 +12,12 @@ Clone this repository
 git clone https://github.com/derwentx/feature-hunter
 ```
 
-install the python package
+cd into the repo, install some dependencies and install the python package (requires pip: https://pip.pypa.io/en/stable/installing/)
 
 ```bash
-python setup.py install
+cd feature-hunter/
+pip install tinydb scrapy tabulate
+sudo python setup.py install
 ```
 
 play with some databases (an example databse is provided)
@@ -24,6 +26,12 @@ play with some databases (an example databse is provided)
 cp /example_db.json ~
 cd ~
 python -m feature_hunter --db example_db.json
+```
+
+schedule that bad boi in your crontab for alerts!
+
+```
+0 * * * python -m feature_hunter --db ~/example_db.json --enable-alerts --smtp-host smtp.gmail.com --smtp-port 465 --smtp-pass <email_password> --smtp-sender <your_email> --smtp-domain <your_domain>
 ```
 
 Configuration

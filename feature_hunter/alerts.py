@@ -41,7 +41,7 @@ class Alerter(object):
         msg.attach(MIMEText(content_text, 'plain'))
         msg.attach(MIMEText(content_html, 'html'))
 
-        s = smtplib.SMTP_SSL(smtp_params['host'], str(smtp_params['port']), 'ich.ddns.me')
+        s = smtplib.SMTP_SSL(smtp_params['host'], str(smtp_params['port']), smtp_params['domain'])
         # s = smtplib.SMTP(smtp_params['host'], str(smtp_params['port']))
         s.set_debuglevel(1)
         s.ehlo()
