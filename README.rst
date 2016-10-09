@@ -8,23 +8,20 @@ Installation
 
 Clone this repository
 
-```bash
-git clone https://github.com/derwentx/feature-hunter
-```
+.. code:: bash
+    git clone https://github.com/derwentx/feature-hunter
 
 install the python package
 
-```bash
-python setup.py install
-```
+.. code:: bash
+    python setup.py install
 
 play with some databases (an example databse is provided)
 
-```bash
-cp /example_db.json ~
-cd ~
-python -m feature_hunter --db example_db.json
-```
+.. code:: bash
+    cp /example_db.json ~
+    cd ~
+    python -m feature_hunter --db example_db.json
 
 Roadmap
 ====
