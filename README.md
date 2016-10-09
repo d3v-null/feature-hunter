@@ -73,6 +73,13 @@ we want to target every `<div class="podlist_item">`  using the css target spec:
 
 That's all you need to specify a target. a css or xpath target spec for each record and a css or xpath target spec for each field. The regex is optional, and not needed if your fields are separated in the html.
 
+Mail
+----
+You may need to dick around with mail settings to get mail to work. At the moment it connects to localhost as a plaintext SMTP server, so if you're using macOS you'll have to floow this guide: http://www.developerfiles.com/how-to-send-emails-from-localhost-mac-os-x-el-capitan/
+
+If I get enough interest I'll write an SSL SMTP client, because plaintext creds r bad
+
+
 Roadmap
 ====
  - [x] Correctly identify changes in targets specified in database
