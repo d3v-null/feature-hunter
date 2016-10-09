@@ -69,7 +69,9 @@ In this example, our target webpage looks something like this
 <!-- ... -->
 ```
 
-we want to target every `<div class="podlist_item">`  using the css target spec: `div.podlist_item` as our records, then to obtain the fields `album` and `artist` from each record we're going to do another css target spec on `div.text div.title::text`. Now since the format of the title is `<artist> - <album>` we're going to further target the fields within this text element by selecting them with a regular expression which is ` - \s*(\S[\s\S]+\S)\s*$` for the album and `^\s*(\S[\s\S]+\S)\\s* - ` for the artist
+we want to target every `<div class="podlist_item">`  using the css target spec: `div.podlist_item` as our records (it also supports xpath targeting), then to obtain the fields `album` and `artist` from each record we're going to do another css target spec on `div.text div.title::text`. Now since the format of the title is `<artist> - <album>` we're going to further target the fields within this text element by selecting them with a regular expression which is ` - \s*(\S[\s\S]+\S)\s*$` for the album and `^\s*(\S[\s\S]+\S)\\s* - ` for the artist.
+
+That's all you need to specify a target. a css or xpath target spec for each record and a css or xpath target spec for each field. The regex is optional, and not needed if your fields are separated in the html.
 
 Roadmap
 ====
