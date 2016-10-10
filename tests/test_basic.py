@@ -2,7 +2,7 @@
 
 from context import feature_hunter
 from feature_hunter.db import DBWrapper
-from feature_hunter.crawler import get_crawler_items
+from feature_hunter.crawler import get_html_crawler_records
 from feature_hunter.diff import ResultDiff
 from feature_hunter.alerts import Alerter
 
@@ -62,10 +62,10 @@ class DBTestsBasic(unittest.TestCase):
         self.assertEqual(target['field_specs'], target_field_specs)
 
 
-@unittest.skip("don't want to test on live server too often. uncomment to enable test")
+# @unittest.skip("don't want to test on live server too often. uncomment to enable test")
 class CrawlerTestsBasic(unittest.TestCase):
-    def testCrawl(self):
-        items = get_crawler_items(
+    def testHtmlCrawl(self):
+        items = get_html_crawler_records(
             record_spec={
                 'css':'div.podlist_item'
             },

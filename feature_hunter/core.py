@@ -3,7 +3,7 @@
 import argparse
 
 from db import DBWrapper
-from crawler import get_crawler_items
+from crawler import get_html_crawler_records
 from diff import ResultDiff
 from helpers import get_safe_timestamp
 from alerts import Alerter
@@ -17,7 +17,7 @@ def refresh_db(database_path, scrapy_settings=None):
         last_result = dbwrapper.latest_result_json(target_name)
         print "OLD RESULT: %s" % str(last_result)
 
-        this_result = get_crawler_items(
+        this_result = get_html_crawler_records(
             record_spec=target['record_spec'],
             field_specs=target['field_specs'],
             start_urls=[target['url']],

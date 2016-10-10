@@ -3,3 +3,5 @@ sphinx
 tinydb
 scrapy
 tabulate
+whatapi
+jsonpath-rw
