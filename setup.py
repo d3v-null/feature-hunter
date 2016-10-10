@@ -9,6 +9,9 @@ with open('README.md') as f:
 with open('LICENSE') as f:
     package_license = f.read()
 
+with open('requirements.txt') as f:
+    requirements = f.read().splitlines()
+
 setup(
     name='feature_hunter',
     version='0.0.1',
@@ -18,5 +21,6 @@ setup(
     author_email='derwent@laserphile.com',
     url='https://github.com/derwentx/feature-hunter',
     license=package_license,
-    packages=find_packages(exclude=('tests', 'docs'))
+    packages=find_packages(exclude=('tests', 'docs')),
+    install_requires=requirements
 )
