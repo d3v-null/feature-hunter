@@ -3,24 +3,27 @@ Feature Hunter
 
 A python module for trawling music websites that detects changes in lists of feature albums and sends notifications by email
 
-Installation
+Pre-install
+====
+In order for Scrapy to work, you're going to have to install a couple of packages, this guide explains it all https://doc.scrapy.org/en/latest/intro/install.html
+
+Install
 ====
 
-Clone this repository
+Clone this repository and cd into it
 
 ```bash
 git clone https://github.com/derwentx/feature-hunter
+cd feature-hunter/
+
 ```
 
-cd into the repo, install some dependencies and install/test the python package (requires pip: https://pip.pypa.io/en/stable/installing/)
+install install/test the python package
 
 ```bash
-cd feature-hunter/
-pip install tinydb scrapy tabulate
-python test/test_basic.py
 sudo python setup.py install
+python test/test_basic.py
 ```
-
 play with some databases (an example databse is provided)
 
 ```bash
