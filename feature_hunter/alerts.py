@@ -21,6 +21,27 @@ class Alerter(object):
         return tabulate(changes.items(), headers=["target", "changes"], tablefmt=tablefmt)
 
     @classmethod
+    def send_message(smtp_params, msg, sender, recipients):
+        s = smtplib.SMTP_SSL(smtp_params['host'], str(smtp_params['port']), smtp_params.get('domain'))
+        # s = smtplib.SMTP(smtp_params['host'], str(smtp_params['port']))
+        if smtp_params.get('debug'):
+            s.set_debuglevel(1)
+        s.ehlo()
+        # s.starttls()
+        # s.ehlo()
+        # print "logging in with %s : %s" % (sender, smtp_params['pass'])
+        s.login(sender, smtp_params['pass'])
+        # print "Sending message from %s to %s: %s" % (
+        #     sender, str(recipients), msg.as_string()
+        # )
+        s.sendmail(sender, recipients, msg.as_string())
+        s.quit()
+
+        # s = smtplib.SMTP('localhost')
+        # s.sendmail(msg['from'], recipients, msg.as_string())
+        # s.quit()
+
+    @classmethod
     def create_alert(cls, changes, smtp_params, recipients=None):
         if not (changes or smtp_params):
             return
@@ -42,22 +63,4 @@ class Alerter(object):
         )
         msg.attach(MIMEText(content_text, 'plain'))
         msg.attach(MIMEText(content_html, 'html'))
-
-        s = smtplib.SMTP_SSL(smtp_params['host'], str(smtp_params['port']), smtp_params.get('domain'))
-        # s = smtplib.SMTP(smtp_params['host'], str(smtp_params['port']))
-        if smtp_params.get('debug'):
-            s.set_debuglevel(1)
-        s.ehlo()
-        # s.starttls()
-        # s.ehlo()
-        # print "logging in with %s : %s" % (sender, smtp_params['pass'])
-        s.login(sender, smtp_params['pass'])
-        # print "Sending message from %s to %s: %s" % (
-        #     sender, str(recipients), msg.as_string()
-        # )
-        s.sendmail(sender, recipients, msg.as_string())
-        s.quit()
-
-        # s = smtplib.SMTP('localhost')
-        # s.sendmail(msg['from'], recipients, msg.as_string())
-        # s.quit()
+        cls.send_message(smtp_params, msg, sender, recipients)
