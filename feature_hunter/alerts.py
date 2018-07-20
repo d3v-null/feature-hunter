@@ -6,6 +6,16 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 class Alerter(object):
+    content_html = """\
+<html>
+  <head></head>
+  <body>
+    <p>{content}</p>
+    {table}
+  </body>
+</html>
+"""
+
     @classmethod
     def tabulate_changes(cls, changes, tablefmt):
         return tabulate(changes.items(), headers=["target", "changes"], tablefmt=tablefmt)
@@ -26,18 +36,10 @@ class Alerter(object):
 
         content = "Here is the table of changes"
         content_text = content + "\n" + cls.tabulate_changes(changes, tablefmt='simple')
-        content_html = """\
-<html>
-  <head></head>
-  <body>
-    <p>{content}</p>
-    {table}
-  </body>
-</html>
-""".format(
-    content=content,
-    table=cls.tabulate_changes(changes, tablefmt="html")
-)
+        content_html = cls.content_html.format(
+            content=content,
+            table=cls.tabulate_changes(changes, tablefmt="html")
+        )
         msg.attach(MIMEText(content_text, 'plain'))
         msg.attach(MIMEText(content_html, 'html'))
 
@@ -48,11 +50,11 @@ class Alerter(object):
         s.ehlo()
         # s.starttls()
         # s.ehlo()
-        print "logging in with %s : %s" % (sender, smtp_params['pass'])
+        # print "logging in with %s : %s" % (sender, smtp_params['pass'])
         s.login(sender, smtp_params['pass'])
-        print "Sending message from %s to %s: %s" % (
-            sender, str(recipients), msg.as_string()
-        )
+        # print "Sending message from %s to %s: %s" % (
+        #     sender, str(recipients), msg.as_string()
+        # )
         s.sendmail(sender, recipients, msg.as_string())
         s.quit()
 
