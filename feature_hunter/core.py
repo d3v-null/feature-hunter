@@ -66,12 +66,14 @@ def get_settings(args):
         return
     db_path = args.db
     scrapy_settings = {}
-    if args.user_agent is not None:
-        scrapy_settings['USER_AGENT'] = args.user_agent
-    if args.scrapy_log_level is not None:
-        scrapy_settings['LOG_LEVEL'] = args.scrapy_log_level
-    smtp_settings = {}
+    for key, attr in [
+        ('USER_AGENT', 'user_agent'),
+        ('LOG_LEVEL', 'scrapy_log_level')
+    ]:
+        if getattr(args, attr, None) is not None:
+            scrapy_settings[key] = getattr(args, attr)
 
+    smtp_settings = {}
     for key, attr in [
         ('host', 'smtp_host'),
         ('port', 'smtp_port'),
