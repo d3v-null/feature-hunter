@@ -4,11 +4,9 @@ import json
 import re
 
 import scrapy
-# import jsonpath_rw
-from jsonpath_rw import jsonpath, parse
 from scrapy import signals
 from scrapy.crawler import CrawlerProcess
-from scrapy.selector import Selector, SelectorList
+from scrapy.selector import SelectorList
 from scrapy.xlib.pydispatch import dispatcher
 
 
@@ -32,24 +30,27 @@ class GeneralizedRecordSpider(scrapy.Spider):
     #     elif query_type == 'jsonpath':
 
 
+    def get_field_raw(self, record_selector, field_spec):
+        if field_spec.get('css'):
+            return record_selector.css(field_spec['css']).extract_first()
+        elif field_spec.get('xpath'):
+            return record_selector.xpath(field_spec['xpath']).extract_first()
+        # elif field_spec.get('jsonpath'):
+        #     json_record = json.loads(response.body_as_unicode())
+        #     jsonpath_expr = parse(field_spec['jsonpath'])
+        #
+        #     return
+
+        return record_selector.extract()
+        # print "field_raw: %s" % (repr(field_raw))
+
     def get_record_fields(self, record_selector):
         record_fields = {}
         for field_name, field_spec in self.field_specs.items():
             # print "processing field %s with fieldspec %s" % (field_name, str(field_spec))
             # print "respons being parsed: %s" % (record_selector.extract())
             record_fields[field_name] = None
-            if field_spec.get('css'):
-                field_raw = record_selector.css(field_spec['css']).extract_first()
-            elif field_spec.get('xpath'):
-                field_raw = record_selector.xpath(field_spec['xpath']).extract_first()
-            # elif field_spec.get('jsonpath'):
-            #     json_record = json.loads(response.body_as_unicode())
-            #     jsonpath_expr = parse(field_spec['jsonpath'])
-            #
-            #     field_raw =
-            else:
-                field_raw = record_selector.extract()
-            # print "field_raw: %s" % (repr(field_raw))
+            field_raw = self.get_field_raw(record_selector, field_spec)
             if not field_raw:
                 continue
             if field_spec.get('regex'):
