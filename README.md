@@ -1,6 +1,23 @@
 Feature Hunter
 ====
 
+```
+                    ____           __
+                   / __/__  ____ _/ /___  __________
+                  / /_/ _ \/ __ `/ __/ / / / ___/ _ \
+                 / __/  __/ /_/ / /_/ /_/ / /  /  __/
+                /_/  \___/\__,_/\__/\__,_/_/   \___/
+                    __                __
+                   / /_  __  ______  / /____  _____
+                  / __ \/ / / / __ \/ __/ _ \/ ___/
+                 / / / / /_/ / / / / /_/  __/ /
+                /_/ /_/\__,_/_/ /_/\__/\___/_/
+
+```
+
+
+[![Maintainability](https://api.codeclimate.com/v1/badges/6d9a7038a57ee928ca27/maintainability)](https://codeclimate.com/github/derwentx/feature-hunter/maintainability)
+
 A python module for trawling music websites that detects changes in lists of feature albums and sends notifications by email
 
 Pre-install
