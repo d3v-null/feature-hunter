@@ -1,12 +1,13 @@
-"""Core functions for feature_hunter"""
+""" Provide core functions for feature_hunter. """
 
 import argparse
 
-from db import DBWrapper
+from alerts import Alerter
 from crawler import get_html_crawler_records
+from db import DBWrapper
 from diff import ResultDiff
 from helpers import get_safe_timestamp
-from alerts import Alerter
+
 
 def refresh_db(database_path, scrapy_settings=None):
     dbwrapper = DBWrapper(database_path)
@@ -38,7 +39,7 @@ def refresh_db(database_path, scrapy_settings=None):
             alerts[target_name] = delta
     return alerts
 
-def main():
+def get_parser():
     parser = argparse.ArgumentParser(description="refresh a feature_hunter database")
     # for parser_args, parse_kwargs in [
     #     (['db'], {'help': })
@@ -58,36 +59,43 @@ def main():
     parser.add_argument('--smtp-receipiant')
     parser.add_argument('--smtp-domain')
     parser.add_argument('--smtp-debug', default=False, action='store_true')
+    return parser
+
+def get_settings(args):
+    if not args:
+        return
+    db_path = args.db
+    scrapy_settings = {}
+    if args.user_agent is not None:
+        scrapy_settings['USER_AGENT'] = args.user_agent
+    if args.scrapy_log_level is not None:
+        scrapy_settings['LOG_LEVEL'] = args.scrapy_log_level
+    smtp_settings = {}
+
+    for key, attr in [
+        ('host', 'smtp_host'),
+        ('port', 'smtp_port'),
+        ('sender', 'smtp_sender'),
+        ('pass', 'smtp_pass'),
+        ('host', 'smtp_host'),
+        ('domain', 'smtp_domain'),
+        ('debug', 'smtp_debug')
+    ]:
+        if getattr(args, attr, None) is not None:
+            smtp_settings[key] = getattr(args, attr)
+
+    return db_path, scrapy_settings, smtp_settings
+
+
+def main():
+    parser = get_parser()
     args = parser.parse_args()
-
-    if args:
-        db_path = args.db
-        scrapy_settings = {}
-        if args.user_agent is not None:
-            scrapy_settings['USER_AGENT'] = args.user_agent
-        if args.scrapy_log_level is not None:
-            scrapy_settings['LOG_LEVEL'] = args.scrapy_log_level
-        smtp_settings = {}
-        if args.smtp_host is not None:
-            smtp_settings['host'] = args.smtp_host
-        if args.smtp_port is not None:
-            smtp_settings['port'] = args.smtp_port
-        if args.smtp_sender is not None:
-            smtp_settings['sender'] = args.smtp_sender
-        if args.smtp_pass is not None:
-            smtp_settings['pass'] = args.smtp_pass
-        if args.smtp_host is not None:
-            smtp_settings['host'] = args.smtp_host
-        if args.smtp_domain is not None:
-            smtp_settings['domain'] = args.smtp_domain
-        if args.smtp_debug is not None:
-            smtp_settings['debug'] = args.smtp_debug
-
-        alerts = refresh_db(db_path, scrapy_settings)
-        if alerts:
-            print "alerts!" + str(alerts)
-            if args.enable_alerts:
-                Alerter.create_alert(alerts, smtp_settings)
+    db_path, scrapy_settings, smtp_settings = get_settings()
+    alerts = refresh_db(db_path, scrapy_settings)
+    if alerts:
+        print "alerts!" + str(alerts)
+        if args.enable_alerts:
+            Alerter.create_alert(alerts, smtp_settings)
 
 if __name__ == '__main__':
     main()
