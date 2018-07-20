@@ -40,6 +40,9 @@ def refresh_db(database_path, scrapy_settings=None):
 
 def main():
     parser = argparse.ArgumentParser(description="refresh a feature_hunter database")
+    # for parser_args, parse_kwargs in [
+    #     (['db'], {'help': })
+    # ]
     parser.add_argument('--db', help='The path of the database. e.g. feature_db.json')
     parser.add_argument('--user-agent', help="The user agent string",
                         default= 'Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)')

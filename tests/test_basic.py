@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from context import feature_hunter
-from feature_hunter.db import DBWrapper
-from feature_hunter.crawler import get_html_crawler_records
-from feature_hunter.diff import ResultDiff
-from feature_hunter.alerts import Alerter
-
-import unittest
 # from tinydb import TinyDB
 import json
+import unittest
+
+import twisted
+from context import feature_hunter
+from feature_hunter.alerts import Alerter
+from feature_hunter.crawler import get_html_crawler_records
+from feature_hunter.db import DBWrapper
+from feature_hunter.diff import ResultDiff
 
 target_name = 'triplej'
 target_url = 'http://www.abc.net.au/triplej/music/featurealbums/'
@@ -64,19 +65,41 @@ class DBTestsBasic(unittest.TestCase):
 
 # @unittest.skip("don't want to test on live server too often. uncomment to enable test")
 class CrawlerTestsBasic(unittest.TestCase):
+    def testOldHtmlCrawl(self):
+        with self.assertRaises(twisted.internet.error.ReactorNotRestartable):
+            items = get_html_crawler_records(
+                record_spec={
+                    'css':'div.podlist_item'
+                },
+                field_specs={
+                    'album':{
+                        # 'xpath':"//div[contains(concat(' ', normalize-space(@class), ' '), ' podlist_item ')]//div[contains(concat(' ', normalize-space(@class), ' '), ' title ')]"
+                        'css':'div.text div.title::text',
+                        'regex':r' - \s*(\S[\s\S]+\S)\s*$'
+                    },
+                    'artist':{
+                        'css':'div.text div.title::text',
+                        'regex':r'^\s*(\S[\s\S]+\S)\s* - '
+                    }
+                },
+                start_urls=[
+                    'http://www.abc.net.au/triplej/music/featurealbums/'
+                ]
+            )
+
     def testHtmlCrawl(self):
         items = get_html_crawler_records(
             record_spec={
-                'css':'div.podlist_item'
+                'css':'div.view-collection-grid ul.content-container li.grid-item'
             },
             field_specs={
                 'album':{
                     # 'xpath':"//div[contains(concat(' ', normalize-space(@class), ' '), ' podlist_item ')]//div[contains(concat(' ', normalize-space(@class), ' '), ' title ')]"
-                    'css':'div.text div.title::text',
+                    'css':'div h3',
                     'regex':r' - \s*(\S[\s\S]+\S)\s*$'
                 },
                 'artist':{
-                    'css':'div.text div.title::text',
+                    'css':'div h3',
                     'regex':r'^\s*(\S[\s\S]+\S)\s* - '
                 }
             },
@@ -84,7 +107,7 @@ class CrawlerTestsBasic(unittest.TestCase):
                 'http://www.abc.net.au/triplej/music/featurealbums/'
             ]
         )
-        self.assertEqual(len(items), 6)
+        self.assertEqual(len(items), 12)
         for item in items:
             self.assertTrue(item['album'])
             self.assertTrue(item['artist'])

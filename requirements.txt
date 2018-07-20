@@ -1,7 +1,8 @@
+tabulate==0.7.7
+setuptools==40.0.0
+tinydb==3.9.0.post1
+jsonpath_rw==1.4.0
+scrapy==1.5.1
 nose
 sphinx
-tinydb
-scrapy
-tabulate
 whatapi
-jsonpath-rw
